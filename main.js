@@ -31,17 +31,14 @@ for (let key of keys) {
 			let result = eval(PerpareInput(input));
 
 			display_output.innerHTML = CleanOutput(result);
-        }
-        else if (value == "%") {  // Handle '%' button click
-            input += "%";  // Append '%' symbol
-            display_input.innerHTML = CleanInput(input);
-        }
-
-        else {
-            if (ValidateInput(value)) {
-                input += value;
-                display_input.innerHTML = CleanInput(input);
-            }
+               } else if (value == "%") {
+		         input += "%";  
+		         display_input.innerHTML = CleanInput(input);
+	       } else {
+		    if (ValidateInput(value)) {
+			input += value;
+			display_input.innerHTML = CleanInput(input);
+		    }
 		}
 	})
 }
@@ -169,7 +166,7 @@ function handleKeyboardInput(event) {
         '*': '*',     
         '/': '/',      
         '%': '%',
-		'=':'=',
+	'=':'=',
         'Enter': '=',  
         'Backspace': 'backspace', 
         'Delete': 'clear' 
