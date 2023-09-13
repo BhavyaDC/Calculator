@@ -10,8 +10,10 @@ for (let key of keys) {
 	key.addEventListener('click', () => {
 		if (value == "clear") {
 			input = "";
+            decimalCount = 0;
 			display_input.innerHTML = "";
 			display_output.innerHTML = "";
+
 		} else if (value == "backspace") {
 			if (input.length > 0) {
 				input = input.slice(0, -1); 
@@ -29,6 +31,10 @@ for (let key of keys) {
 			let result = eval(PerpareInput(input));
 
 			display_output.innerHTML = CleanOutput(result);
+        }
+        else if (value == "%") {  // Handle '%' button click
+            input += "%";  // Append '%' symbol
+            display_input.innerHTML = CleanInput(input);
         }
 
         else {
@@ -92,42 +98,40 @@ function ValidateInput(value) {
     let operators = ["+", "-", "*", "/"];
 
     if (value === "clear") {
-        input = ""; 
+        input = "";
         decimalCount = 0;
         return true;
     }
 
     if (operators.includes(value)) {
         if (
-            lastInput === "" ||
             operators.includes(lastInput) ||
             lastInput === "+" ||
             lastInput === "-" ||
             lastInput === "*" ||
             lastInput === "/"
         ) {
-            return false; 
+            return false;
         } else {
-            decimalCount = 0; 
-            return true; 
+            decimalCount = 0;
+            return true;
         }
     }
 
     if (value === ".") {
-        if (lastInput === "." || !/[\d.]/.test(lastInput) || decimalCount >= 1) {
+        if (lastInput === "." || decimalCount >= 1) {
             return false;
         } else {
             decimalCount++;
             return true;
-            
         }
     }
 
-    if (!isNaN(value) || (value === "." && !lastInput.includes("."))) {
-        return true; 
+    if (!isNaN(value) || (value === "." && !input.includes("."))) {
+        return true;
     }
 
-    return false; 
+    return false;
 }
 
 
@@ -177,7 +181,12 @@ function handleKeyboardInput(event) {
         const keyElement = document.querySelector(`[data-key="${value}"]`);
 
         if (keyElement) {
-            keyElement.click();
+            if (value === '%') {
+                input += '%';  // Append '%' symbol
+                display_input.innerHTML = CleanInput(input);
+            } else {
+                keyElement.click();
+            }
         }
     }
 }
